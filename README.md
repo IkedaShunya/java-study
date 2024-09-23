@@ -1,1 +1,1 @@
-README
+Javaコース勉強よう
