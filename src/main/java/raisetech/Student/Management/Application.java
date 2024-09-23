@@ -14,9 +14,15 @@ import java.util.Map;
 public class Application {
 
 	//日本語を使うとエラーが発生する
-	private String name ="ikeda shunay";
-	private String age = "26";
-	//Map<String, Integer> student = new HashMap<String, Integer>();
+	//private String name ="ikeda shunay";
+	//private String age = "26";
+
+	//Map.of メソッドはJava 9以降で導入され、不変（immutable）のマップを作成します。
+	// この不変マップに対して put メソッドを呼び出すと、
+	// UnsupportedOperationException がスローされます。
+	private Map<String, Integer> student = new HashMap<>(Map.of(
+			"ikeda",25,
+			"enami",39));
 
 	public static void main(String[] args) {
 
@@ -25,23 +31,22 @@ public class Application {
 
 	//コミット用
 	@GetMapping("/studentInfo")
-	public String getStudentInfo(){
-		return name + "　" + age +"歳";
+	public Map<String,Integer> getStudentInfo(){
+		return student;
 
 	}
-
-
 
 	//名前（URL）を分ける場合が多い
 	@PostMapping("/studentInfo")
-	public void setName(String name, String age){
-		this.name =name;
-		this.age = age;
+	public void setName(String name, int age){
+		student.put(name, age) ;
 	}
-	@PostMapping("/studentName")
-	public void updateStudentName(String name){
-		this.name =name;
-	}
+
+
+//	@PostMapping("/studentName")
+//	public void updateStudentName(String name){
+//		this.name =name;
+//	}
 
 
 }
