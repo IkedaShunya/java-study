@@ -14,6 +14,7 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
+	//コミット用
 	@GetMapping("/hello")
 	public String hello(){
 		return "Hello, World";
