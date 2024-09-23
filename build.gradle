@@ -20,6 +20,9 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	//	Apache Commons Lang 便利機能 豊富な機能たち　下記だけ簡単にライブライ追加できる
+	implementation 'org.apache.commons:commons-lang3:3.17.0'
+
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
