@@ -2,6 +2,8 @@ package raisetech.Student.Management;
 
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 //擬似的なデータベースみたいなもの
 //@MapperがつくとMyBatisが管理するということを自動的に認識してくれる
 @Mapper
@@ -19,5 +21,9 @@ public interface StudentRepository {
 
     @Delete("DELETE FROM student WHERE name = #{name}")
     void deleteStudent(String name);
+
+    //課題用
+    @Select("SELECT * FROM student")
+    List<Student> searchByStudentlist();
 
 }

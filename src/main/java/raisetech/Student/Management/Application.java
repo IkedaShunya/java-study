@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SpringBootApplication
@@ -47,6 +48,14 @@ public class Application {
 	@DeleteMapping("/student")
 	public void deleteStudent(String name){
 		repository.deleteStudent(name);
+	}
+
+	//課題用
+	@GetMapping("/studentlist")
+	public List<Student> getStudentlist(){
+		List<Student> students = repository.searchByStudentlist();
+		return students;
+
 	}
 
 
