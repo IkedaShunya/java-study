@@ -1,10 +1,9 @@
 package raisetech.Student.Management;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,40 +12,45 @@ import java.util.Map;
 @RestController
 public class Application {
 
-	//日本語を使うとエラーが発生する
-	//private String name ="ikeda shunay";
-	//private String age = "26";
+	//@Autowired でspringが管理しているインスタンスを自動的にrepositoryをあてはめてくれる
+	//new しなくてもよい（インターフェイスはnewできない）
+	// StudentRepositoryのインスタンス生成をしてくれる
+	@Autowired
+	private StudentRepository repository;
 
-	//Map.of メソッドはJava 9以降で導入され、不変（immutable）のマップを作成します。
-	// この不変マップに対して put メソッドを呼び出すと、
-	// UnsupportedOperationException がスローされます。
-	private Map<String, Integer> student = new HashMap<>(Map.of(
-			"ikeda",25,
-			"enami",39));
 
 	public static void main(String[] args) {
 
 		SpringApplication.run(Application.class, args);
 	}
 
-	//コミット用
-	@GetMapping("/studentInfo")
-	public Map<String,Integer> getStudentInfo(){
-		return student;
+	//引数（名前）を指定してStudentRepositoryのselect文を実行
+	@GetMapping("/student")
+	//@RequestParamは（）内の変数のパラメータを指定できる　例）?name=ikedashunya
+	public String getStudentInfo(@RequestParam("name")String name){
+		Student student =repository.searchByName(name);
+		return student.getName() + student.getAge() + "歳";
 
 	}
 
-	//名前（URL）を分ける場合が多い
-	@PostMapping("/studentInfo")
-	public void setName(String name, int age){
-		student.put(name, age) ;
+	//引数（名前と年齢）を指定してStudentRepositoryのINSERT文を実行
+	@PostMapping("/student")
+	public void registerStudent(String name, int age){
+		repository.registerStudent(name, age);
+	}
+
+	@PatchMapping("/student")
+	public void updateStudentAge(String name, int age){
+		repository.updateStudent(name,age);
+	}
+
+	@DeleteMapping("/student")
+	public void deleteStudent(String name){
+		repository.deleteStudent(name);
 	}
 
 
-//	@PostMapping("/studentName")
-//	public void updateStudentName(String name){
-//		this.name =name;
-//	}
+
 
 
 }

@@ -23,6 +23,11 @@ dependencies {
 	//	Apache Commons Lang 便利機能 豊富な機能たち　下記だけ簡単にライブライ追加できる
 	implementation 'org.apache.commons:commons-lang3:3.17.0'
 
+	//MySQLドライバ
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	//MyBatis
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
