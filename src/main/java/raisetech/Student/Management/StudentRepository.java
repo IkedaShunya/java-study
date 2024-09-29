@@ -9,21 +9,10 @@ import java.util.List;
 @Mapper
 public interface StudentRepository {
 
-    //#{name} はjava(アプリ)のほうのname WHERE nameはSQL文のname
-    @Select("SELECT * FROM student WHERE name = #{name}")
-    Student searchByName(String name);
+    @Select("SELECT * FROM students")
+    List<Student> searchBystudent();
+    @Select("SELECT * FROM students_courses")
+    List<StudentsCourses> searchBystudentCourese();
 
-    @Insert("INSERT student values(#{name}, #{age})")
-    void  registerStudent(String name, int age);
-
-    @Update("UPDATE student SET age = #{age} WHERE name = #{name}")
-    void updateStudent(String name, int age);
-
-    @Delete("DELETE FROM student WHERE name = #{name}")
-    void deleteStudent(String name);
-
-    //課題用
-    @Select("SELECT * FROM student")
-    List<Student> searchByStudentlist();
 
 }
