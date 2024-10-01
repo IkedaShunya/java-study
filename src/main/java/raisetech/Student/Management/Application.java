@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
+import raisetech.Student.Management.repository.StudentRepository;
+import raisetech.Student.Management.data.Student;
+import raisetech.Student.Management.data.StudentsCourses;
 
 import java.util.List;
 
@@ -11,28 +14,10 @@ import java.util.List;
 @RestController
 public class Application {
 
-	//@Autowired でspringが管理しているインスタンスを自動的にrepositoryをあてはめてくれる
-	//new しなくてもよい（インターフェイスはnewできない）
-	// StudentRepositoryのインスタンス生成をしてくれる
-	@Autowired
-	private StudentRepository repository;
-
-
+	//メインメソッドはあまり使わない
 	public static void main(String[] args) {
 
 		SpringApplication.run(Application.class, args);
-	}
-
-
-	@GetMapping("/studentlist")
-	public List<Student>  getStudentList(){
-		return repository.searchBystudent();
-
-	}
-	@GetMapping("/studentcourseslist")
-	public List<StudentsCourses>  getstudentcourseslist(){
-		return repository.searchBystudentCourese();
-
 	}
 
 
