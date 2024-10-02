@@ -7,6 +7,7 @@ import raisetech.Student.Management.data.StudentsCourses;
 import raisetech.Student.Management.repository.StudentRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 //サービスとして使える、認識される。
 //サービスは実際の処理はサービスの中ででやる。
@@ -25,10 +26,14 @@ public class StudentService {
 
 
     public List<StudentsCourses> searchstudentsCoureses(){
-        //絞り込み検索でjavaコースの情報のみを抽出syry
+        //絞り込み検索でjavaコースの情報のみを抽出する
         //抽出したリストをコントローラーに返す。
         //コントローラー側触らない
-        return repository.searchBystudentCourese();
+
+
+        return repository.searchBystudentCourese().stream()
+                .filter(studentcoure -> studentcoure.getCourseName().equals("Java"))
+                .collect(Collectors.toList());
 
     }
 
@@ -40,7 +45,9 @@ public class StudentService {
         //絞り込みをする。年代が30代のひとのみを抽出する
         //抽出したリストをコントローラーに返す
         //コントローラー側触らない
-        return repository.searchBystudent();
+        return repository.searchBystudent().stream()
+                .filter(student -> student.getAge() >= 30 && student.getAge() < 40)
+                .collect(Collectors.toList());
 
     }
 
