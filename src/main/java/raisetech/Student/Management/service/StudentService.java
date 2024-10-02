@@ -31,9 +31,10 @@ public class StudentService {
         //コントローラー側触らない
 
 
-        return repository.searchBystudentCourese().stream()
+        return repository.searchBystudentCourese();
+                /*.stream()
                 .filter(studentcoure -> studentcoure.getCourseName().equals("Java"))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
 
     }
 
@@ -45,9 +46,10 @@ public class StudentService {
         //絞り込みをする。年代が30代のひとのみを抽出する
         //抽出したリストをコントローラーに返す
         //コントローラー側触らない
-        return repository.searchBystudent().stream()
+        return repository.searchBystudent();
+                /*.stream()
                 .filter(student -> student.getAge() >= 30 && student.getAge() < 40)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
 
     }
 
