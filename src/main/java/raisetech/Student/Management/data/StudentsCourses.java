@@ -13,7 +13,6 @@ public class StudentsCourses {
     private String courseName;
     private LocalDate startDate ;
     private LocalDate endExpectedDate;
-    private String remark;
-    private int deleteFlag;
+
 
 }
