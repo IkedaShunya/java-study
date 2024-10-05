@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--下記記述がないと動かない-->
+<!--thはタグ。属性を追加するもの-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>受講生一覧</title>
+</head>
+<body>
+<h1>受講生一覧</h1>
+<table border="1">
+<!--   カラム名みたいなもの-->
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>名前</th>
+        <th>カナ名</th>
+        <th>ニックネーム</th>
+        <th>メールアドレス</th>
+        <th>地域</th>
+        <th>年齢</th>
+        <th>性別</th>
+        <th>コース名</th>
+        <th>備考</th>
+
+    </tr>
+    </thead>
+    <tbody>
+<!--    ${}は{}内の変数名で帰ってくる-->
+<!--eachは繰り返しなので${studentlist}数だけ繰り返す-->
+<!--studentcourseの内容もふれれる-->
+<!--テストてきに適当に内容を入れている-->
+<!--th:each="要素を格納する変数 : ${リスト}" で繰り返し処理を実装することができます。-->
+<!--リストから要素を取り出し、変数に要素を格納して値を表示します-->
+    <tr th:each ="studentDetail : ${students}">
+        <td th:text="${studentDetail.student.id}">1</td>
+        <td th:text="${studentDetail.student.name}">池田駿也</td>
+        <td th:text="${studentDetail.student.nameRuby}">イケダシンヤ</td>
+        <td th:text="${studentDetail.student.nickname}">イケシュン</td>
+        <td th:text="${studentDetail.student.emailAddress}">大阪府摂津市北野-5-5</td>
+        <td th:text="${studentDetail.student.area}">大阪府</td>
+        <td th:text="${studentDetail.student.age}">26</td>
+        <td th:text="${studentDetail.student.gender}">男</td>
+        <td>
+        <span th:each="course, iterStat : ${studentDetail.studentsCourses}">
+        <span th:text="${course.courseName}"></span>
+        <span th:if="${!iterStat.last}">・</span>
+        </span>
+        </td>
+        <td th:text="${studentDetail.student.remark}">初回お客</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
