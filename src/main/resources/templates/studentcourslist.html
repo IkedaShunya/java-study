@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!--下記記述がないと動かない-->
+<!--thはタグ。属性を追加するもの-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>受講生一覧</title>
+</head>
+<body>
+<h1>受講生一覧</h1>
+<table border="1">
+<!--   カラム名みたいなもの-->
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>StudentID</th>
+        <th>コース名</th>
+        <th>開始日</th>
+        <th>終了日</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each ="studentCourseDetail : ${studentsCourses}">
+        <td th:text="${studentCourseDetail.id}">1</td>
+        <td th:text="${studentCourseDetail.studentID}">2</td>
+        <td th:text="${studentCourseDetail.courseName}">Java</td>
+        <td th:text="${studentCourseDetail.startDate}">2024/02/02</td>
+        <td th:text="${studentCourseDetail.endExpectedDate}">2024/02/03</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
