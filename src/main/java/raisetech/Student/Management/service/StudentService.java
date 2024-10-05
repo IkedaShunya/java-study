@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import raisetech.Student.Management.data.Student;
 import raisetech.Student.Management.data.StudentsCourses;
+import raisetech.Student.Management.domain.StudentDetail;
 import raisetech.Student.Management.repository.StudentRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 //サービスとして使える、認識される。
 //サービスは実際の処理はサービスの中ででやる。
@@ -51,6 +51,11 @@ public class StudentService {
                 .filter(student -> student.getAge() >= 30 && student.getAge() < 40)
                 .collect(Collectors.toList());*/
 
+    }
+
+    public void insert(StudentDetail studentDetail){
+        repository.insertByStudent(studentDetail);
+        repository.insertByStudentCourse(studentDetail);
     }
 
 
