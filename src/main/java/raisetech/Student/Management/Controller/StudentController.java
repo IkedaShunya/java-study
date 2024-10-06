@@ -14,6 +14,7 @@ import raisetech.Student.Management.data.StudentsCourses;
 import raisetech.Student.Management.domain.StudentDetail;
 import raisetech.Student.Management.service.StudentService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -65,6 +66,35 @@ public class StudentController {
         return  "registerStudent";
     }
 
+    //編集処理
+    //画面から受け取ったIDをサービスに流す
+    @GetMapping("/student-edit")
+    public String editStudent(Model model, String id){
+        Student student = new Student();
+        student.setId(Integer.parseInt(id));
+        student = service.searchStudentbyId(student.getId());
+
+//        List<StudentsCourses> studentsCourses = new ArrayList<StudentsCourses>();
+        StudentsCourses studentCourse = new StudentsCourses();
+//        StudentsCourses studentCourse = new StudentsCourses();
+        studentCourse.setStudentID(Integer.parseInt(id));
+//        studentCourse.setStudentID(Integer.parseInt(id));
+
+//        studentsCourses.add(studentCourse);
+//        studentsCourses = service.searchStudentCouresbyId(studentsCourses);
+        List<StudentsCourses> studentsCourses = service.searchStudentCouresbyId(studentCourse);
+
+
+
+        StudentDetail studentDetail = new StudentDetail();
+        studentDetail.setStudent(student);
+        studentDetail.setStudentsCourses(studentsCourses);
+        model.addAttribute("studentDetail", studentDetail);
+
+        return  "studentedit";
+
+    }
+
     //registerStudent.htmlファイルの「<form th:action="@{/registerStudent}」
     //から飛んできている
     @PostMapping("/registerStudent")
@@ -80,7 +110,11 @@ public class StudentController {
         //コース情報も一緒に登録できるように実装する。コースは単体でいい。
         service.insert(studentDetail);
 
+
         //studentlistのページに飛ばす
         return "redirect:/studentlist";
     }
+
+
+
 }

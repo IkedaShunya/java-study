@@ -21,6 +21,7 @@
         <th>性別</th>
         <th>コース名</th>
         <th>備考</th>
+        <th>編集</th>
 
     </tr>
     </thead>
@@ -32,7 +33,7 @@
 <!--th:each="要素を格納する変数 : ${リスト}" で繰り返し処理を実装することができます。-->
 <!--リストから要素を取り出し、変数に要素を格納して値を表示します-->
     <tr th:each ="studentDetail : ${students}">
-        <td th:text="${studentDetail.student.id}">1</td>
+        <td>　<a th:text="${studentDetail.student.id}" th:href="@{/student-edit(id=${studentDetail.student.id})}">1</a></td>
         <td th:text="${studentDetail.student.name}">池田駿也</td>
         <td th:text="${studentDetail.student.nameRuby}">イケダシンヤ</td>
         <td th:text="${studentDetail.student.nickname}">イケシュン</td>
@@ -47,6 +48,7 @@
         </span>
         </td>
         <td th:text="${studentDetail.student.remark}">初回お客</td>
+        <td>　<a th:href="@{/student-edit(id=${studentDetail.student.id})}">編集</a></td>
     </tr>
     </tbody>
 </table>

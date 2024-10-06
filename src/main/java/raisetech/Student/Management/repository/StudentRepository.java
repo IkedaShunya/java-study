@@ -24,12 +24,25 @@ public interface StudentRepository {
     List<Student> searchBystudent();
     @Select("SELECT * FROM students_courses")
     List<StudentsCourses> searchBystudentCourese();
-    @Insert("INSERT INTO students(ID ,name,name_ruby,nickname,email_address,area,age,gender,remark,delete_flag) " +
-            "VALUES (#{student.id},#{student.name},#{student.nameRuby},#{student.nickname},#{student.emailAddress},#{student.area}, #{student.age}, #{student.remark},#{student.gender},1)")
-    void insertByStudent(StudentDetail studentDetail);
-    @Insert("INSERT INTO students_courses(ID ,student_ID,course_name,start_date,end_expected_date) " +
-            "VALUES (#{studentsCourses[0].id},#{student.id},#{studentsCourses[0].courseName},#{studentsCourses[0].startDate},#{studentsCourses[0].endExpectedDate})")
-    void insertByStudentCourse(StudentDetail studentDetail);
+
+    /**
+     * ID検索
+     */
+    @Select("SELECT * FROM students WHERE id IN (#{id}) ")
+    Student searchIdBystudent(int id);
+
+    @Select("SELECT * FROM students_courses WHERE student_ID IN (#{studentID}) ")
+    List<StudentsCourses>  searchCouresbystudentID(int id);
+
+    @Insert("INSERT INTO students(name,name_ruby,nickname,email_address,area,age,gender,remark,delete_flag) " +
+            "VALUES (#{name}, #{nameRuby}, #{nickname}, #{emailAddress}, #{area}, #{age}, #{gender} ,#{remark},0)")
+    // @Options(useGeneratedKeys = true, keyProperty = "id" ) idが自動採番と伝える
+    @Options(useGeneratedKeys = true, keyProperty = "id" )
+    void insertByStudent(Student student);
+    @Insert("INSERT INTO students_courses(student_ID,course_name,start_date,end_expected_date) " +
+            "VALUES (#{studentID}, #{courseName}, #{startDate}, #{endExpectedDate})")
+    @Options(useGeneratedKeys = true, keyProperty = "id" )
+    void insertByStudentCourse(StudentsCourses studentsCourses);
 
 
 }

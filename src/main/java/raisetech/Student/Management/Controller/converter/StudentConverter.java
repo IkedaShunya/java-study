@@ -20,7 +20,7 @@ public class StudentConverter {
 
             List<StudentsCourses> convertStudnetCourses =
                     studentsCourses.stream().filter(studentsCourse -> student.getId()
-                                    .equals(studentsCourse.getStudentID()))
+                                    == (studentsCourse.getStudentID()))
                             .collect(Collectors.toList());
 
 

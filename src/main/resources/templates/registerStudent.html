@@ -7,14 +7,10 @@
 </head>
 <body>
 <h1>受講生登録</h1>
-<!--@{/student}はGETとMAPMappingのURL-->
+<!--@{/registerStudent}はGETとMAPMappingのURL-->
 <!--th:object="${studentDetail}のGET,POSTした時の引数の名前-->
 <form th:action="@{/registerStudent}" th:object="${studentDetail}" method="post">
 <!--  <div>は一つのまとまり-->
-    <div>
-        <label for="id">id：</label>
-        <input type="text" id="id" th:field="*{student.id}" required />
-    </div>
     <div>
 <!--    labelの名前がname 別になくてもいい-->
         <label for="name">名前：</label>
@@ -55,10 +51,6 @@
         <input type="text" id="remark" th:field="*{student.remark}" required />
     </div>
     <div>
-        <label for="courseid">コースID：</label>
-        <input type="text" id="courseid" th:field="*{studentsCourses[0].id}" required />
-    </div>
-    <div>
         <label for="courseName">コース名：</label>
         <input type="text" id="courseName" th:field="*{studentsCourses[0].courseName}" required />
     </div>
@@ -66,12 +58,6 @@
         <label for="startDate">開始日：</label>
         <input type="date" id="startDate"  th:field="*{studentsCourses[0].startDate}" required />
     </div>
-    <div>
-        <label for="endExpectedDate">終了日：</label>
-        <input type="date" id="endExpectedDate"  th:field="*{studentsCourses[0].endExpectedDate}" required />
-    </div>
-
-
   <div>
 <!--    登録のボタン押すとPOSTされる-->
     <button type="submit">登録</button>
