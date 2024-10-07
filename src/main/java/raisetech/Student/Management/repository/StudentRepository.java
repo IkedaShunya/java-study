@@ -35,7 +35,7 @@ public interface StudentRepository {
     @Select("SELECT * FROM students WHERE id IN (#{id}) ")
     Student searchIdBystudent(int id);
 
-    @Select("SELECT * FROM students_courses WHERE student_ID IN (#{studentID}) ")
+    @Select("SELECT * FROM students_courses WHERE student_ID IN (#{studentid}) ")
     List<StudentsCourses>  searchCouresbystudentID(int id);
 
     @Insert("INSERT INTO students(name,name_ruby,nickname,email_address,area,age,gender,remark,delete_flag) " +

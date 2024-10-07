@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import raisetech.Student.Management.Controller.converter.StudentConverter;
@@ -90,8 +91,9 @@ public class StudentController {
 
     //編集処理
     //画面から受け取ったIDをサービスに流す
-    @GetMapping("/student-edit")
-    public String editStudent(Model model, String id){
+    @GetMapping("/student-edit/{id}")
+    //@PathVariableで{id}"を引数のString idに入れてくれる
+    public String getStudent(@PathVariable String id ,Model model){
         Student student = new Student();
         student.setId(Integer.parseInt(id));
         student = service.searchStudentbyId(student.getId());
