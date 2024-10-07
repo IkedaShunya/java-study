@@ -1,6 +1,8 @@
 package raisetech.Student.Management.Controller;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,13 +10,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import raisetech.Student.Management.Controller.converter.StudentConverter;
 import raisetech.Student.Management.data.Student;
 import raisetech.Student.Management.data.StudentsCourses;
 import raisetech.Student.Management.domain.StudentDetail;
 import raisetech.Student.Management.service.StudentService;
-
-import java.util.List;
 
 @Controller
 public class StudentController {
@@ -65,6 +66,7 @@ public class StudentController {
         return  "registerStudent";
     }
 
+
     //registerStudent.htmlファイルの「<form th:action="@{/registerStudent}」
     //から飛んできている
     @PostMapping("/registerStudent")
@@ -80,7 +82,64 @@ public class StudentController {
         //コース情報も一緒に登録できるように実装する。コースは単体でいい。
         service.insert(studentDetail);
 
+
         //studentlistのページに飛ばす
         return "redirect:/studentlist";
     }
+    
+
+    //編集処理
+    //画面から受け取ったIDをサービスに流す
+    @GetMapping("/student-edit")
+    public String editStudent(Model model, String id){
+        Student student = new Student();
+        student.setId(Integer.parseInt(id));
+        student = service.searchStudentbyId(student.getId());
+
+//        List<StudentsCourses> studentsCourses = new ArrayList<StudentsCourses>();
+        StudentsCourses studentCourse = new StudentsCourses();
+//        StudentsCourses studentCourse = new StudentsCourses();
+        studentCourse.setStudentid(Integer.parseInt(id));
+//        studentCourse.setStudentID(Integer.parseInt(id));
+
+//        studentsCourses.add(studentCourse);
+//        studentsCourses = service.searchStudentCouresbyId(studentsCourses);
+        List<StudentsCourses> studentsCourses = service.searchStudentCouresbyId(studentCourse);
+
+
+
+        StudentDetail studentDetail = new StudentDetail();
+        studentDetail.setStudent(student);
+        studentDetail.setStudentsCourses(studentsCourses);
+        model.addAttribute("studentDetail", studentDetail);
+
+        return  "studentedit";
+
+    }
+    
+    @PostMapping("/updateStudent")
+    public String updateStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result){
+        if(result.hasErrors()){
+            return "registerStudent";
+        }
+        //新規受講生情報を登録する処理を実装する
+        //コース情報も一緒に登録できるように実装する。コースは単体でいい。
+        for(int i =studentDetail.getStudentsCourses().size()-1; i >=0; i--) {
+            String courseName = studentDetail.getStudentsCourses().get(i).getCourseName();
+        	if(courseName == null || courseName.isBlank()) {
+        		studentDetail.getStudentsCourses().remove(i);
+        	}
+        }
+        
+        service.update(studentDetail);
+
+
+        //studentlistのページに飛ばす
+        return "redirect:/studentlist";
+    }
+    
+    
+
+
+
 }

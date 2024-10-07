@@ -1,18 +1,22 @@
 package raisetech.Student.Management.data;
 
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter
 public class StudentsCourses {
-    private String id;
-    private String studentID;
+    private Integer id;
+    private Integer studentid;
     private String courseName;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
     private LocalDate endExpectedDate;
+
 
 
 }
