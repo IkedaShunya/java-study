@@ -3,11 +3,15 @@
 <!--thはタグ。属性を追加するもの-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>受講生一覧</title>
+    <title>受講生情報の編集</title>
 </head>
 <body>
 <h1>受講生情報の編集</h1>
 <form th:action="@{/editStudent}" th:object="${studentDetail}" method="post">
+	<div>
+		<label for="id"></label>
+        <input type="hidden" id="id" th:field="*{student.id}"/>
+	</div>
     <div>
         <label for="name">名前：</label>
         <input type="text" id="name" th:field="*{student.name}" required/>
@@ -42,7 +46,7 @@
     </div>
     <div>
         <label for="remark">備考：</label>
-        <input type="text" id="remark" th:field=="*{student.gender}" th:value="*{student.remark}">
+        <input type="text" id="remark" th:field=="*{student.remark}">
     </div>
     <div>
         <label for="courseName1">コース名1：</label>
@@ -54,6 +58,15 @@
                th:field="${studentDetail.studentsCourses[0].startDate}" required/>
     </div>
     <div>
+		<label for="courseid1"></label>
+        <input type="hidden" id="coucourseid1" th:field="*{studentsCourses[0].id}">
+	</div>
+    <div>
+		<label for="studentid1"></label>
+        <input type="hidden" id="studentid1" th:field="*{studentsCourses[0].studentid}">
+	</div>
+	
+    <div>
         <label for="courseName2">コース名2：</label>
         <input type="text" id="courseName2" th:field="${studentDetail.studentsCourses[1].courseName}">
     </div>
@@ -63,6 +76,15 @@
                th:value="${studentDetail.studentsCourses[1].startDate}"/>
     </div>
     <div>
+		<label for="courseid2"></label>
+        <input type="hidden" id="coucourseid2" th:field="*{studentsCourses[1].id}">
+	</div>
+    <div>
+		<label for="studentid2"></label>
+        <input type="hidden" id="studentid2" th:field="*{studentsCourses[1].studentid}">
+	</div>
+	
+    <div>
         <label for="courseName3">コース名3：</label>
         <input type="text" id="courseName3" th:field="${studentDetail.studentsCourses[2].courseName}" required/>
     </div>
@@ -71,9 +93,16 @@
         <input type="date" id="startDate3"
                th:field="${studentDetail.studentsCourses[3].startDate}"/>
     </div>
+    <div>
+		<label for="courseid3"></label>
+        <input type="hidden" id="coucourseid3" th:field="*{studentsCourses[2].id}">
+	</div>
+    <div>
+		<label for="studentid3"></label>
+        <input type="hidden" id="studentid3" th:field="*{studentsCourses[2].studentid}">
+	</div>
 
     <div>
-
         <button type="submit"> 登録</button>
     </div>
 </form>

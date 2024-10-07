@@ -1,11 +1,15 @@
 package raisetech.Student.Management.repository;
 
-import org.apache.ibatis.annotations.*;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
 import raisetech.Student.Management.data.Student;
 import raisetech.Student.Management.data.StudentsCourses;
-import raisetech.Student.Management.domain.StudentDetail;
-
-import java.util.List;
 
 
 /**
@@ -43,6 +47,16 @@ public interface StudentRepository {
             "VALUES (#{studentID}, #{courseName}, #{startDate}, #{endExpectedDate})")
     @Options(useGeneratedKeys = true, keyProperty = "id" )
     void insertByStudentCourse(StudentsCourses studentsCourses);
+    
+    
+    
+    @Update("UPDATE students SET name =#{name}, name_ruby=#{nameRuby}, nickname=#{nickname}"
+    		+ ",email_address=#{emailAddress},area=#{area},age=#{age},gender=#{gender},remark=#{remark}"
+    		+ "WHERE id = #{id}")
+    void updateByStudent(Student student);
+    @Update("UPDATE students_courses SET course_name=#{courseName} start_date=#{startDate}"
+    		+ ",end_expected_date=#{endExpectedDate} WHERE id = #{id}")
+    void updateByStudentCourse(StudentsCourses studentsCourses);
 
 
 }

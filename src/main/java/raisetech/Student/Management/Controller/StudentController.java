@@ -1,6 +1,8 @@
 package raisetech.Student.Management.Controller;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,14 +10,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import raisetech.Student.Management.Controller.converter.StudentConverter;
 import raisetech.Student.Management.data.Student;
 import raisetech.Student.Management.data.StudentsCourses;
 import raisetech.Student.Management.domain.StudentDetail;
 import raisetech.Student.Management.service.StudentService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class StudentController {
@@ -66,6 +66,28 @@ public class StudentController {
         return  "registerStudent";
     }
 
+
+    //registerStudent.htmlファイルの「<form th:action="@{/registerStudent}」
+    //から飛んできている
+    @PostMapping("/registerStudent")
+    //th:object="${student}の名前が引数になっている
+    //@ModelAttribute はModel(StudentDetail student)に対してHTMLでPOSTの引数を入れますよ
+    // BindingResult result は入力チェック（Studentクラスでバリデーションチェック(@つけるだけ)できる　文字の長さとか）
+    //ここに入った時点でチェックしてくれる　
+    public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result){
+        if(result.hasErrors()){
+            return "registerStudent";
+        }
+        //新規受講生情報を登録する処理を実装する
+        //コース情報も一緒に登録できるように実装する。コースは単体でいい。
+        service.insert(studentDetail);
+
+
+        //studentlistのページに飛ばす
+        return "redirect:/studentlist";
+    }
+    
+
     //編集処理
     //画面から受け取ったIDをサービスに流す
     @GetMapping("/student-edit")
@@ -94,26 +116,28 @@ public class StudentController {
         return  "studentedit";
 
     }
-
-    //registerStudent.htmlファイルの「<form th:action="@{/registerStudent}」
-    //から飛んできている
-    @PostMapping("/registerStudent")
-    //th:object="${student}の名前が引数になっている
-    //@ModelAttribute はModel(StudentDetail student)に対してHTMLでPOSTの引数を入れますよ
-    // BindingResult result は入力チェック（Studentクラスでバリデーションチェック(@つけるだけ)できる　文字の長さとか）
-    //ここに入った時点でチェックしてくれる　
-    public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result){
+    
+    @PostMapping("/updateStudent")
+    public String updateStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result){
         if(result.hasErrors()){
             return "registerStudent";
         }
         //新規受講生情報を登録する処理を実装する
         //コース情報も一緒に登録できるように実装する。コースは単体でいい。
-        service.insert(studentDetail);
+        for(int i =studentDetail.getStudentsCourses().size()-1; i >=0; i--) {
+        	if(studentDetail.getStudentsCourses().get(i).getCourseName() == null) {
+        		studentDetail.getStudentsCourses().remove(i);
+        	}
+        }
+        
+        service.update(studentDetail);
 
 
         //studentlistのページに飛ばす
         return "redirect:/studentlist";
     }
+    
+    
 
 
 
