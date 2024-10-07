@@ -99,7 +99,7 @@ public class StudentController {
 //        List<StudentsCourses> studentsCourses = new ArrayList<StudentsCourses>();
         StudentsCourses studentCourse = new StudentsCourses();
 //        StudentsCourses studentCourse = new StudentsCourses();
-        studentCourse.setStudentID(Integer.parseInt(id));
+        studentCourse.setStudentid(Integer.parseInt(id));
 //        studentCourse.setStudentID(Integer.parseInt(id));
 
 //        studentsCourses.add(studentCourse);
@@ -125,7 +125,8 @@ public class StudentController {
         //新規受講生情報を登録する処理を実装する
         //コース情報も一緒に登録できるように実装する。コースは単体でいい。
         for(int i =studentDetail.getStudentsCourses().size()-1; i >=0; i--) {
-        	if(studentDetail.getStudentsCourses().get(i).getCourseName() == null) {
+            String courseName = studentDetail.getStudentsCourses().get(i).getCourseName();
+        	if(courseName == null || courseName.isBlank()) {
         		studentDetail.getStudentsCourses().remove(i);
         	}
         }

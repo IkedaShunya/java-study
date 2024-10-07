@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>受講生情報の編集</h1>
-<form th:action="@{/editStudent}" th:object="${studentDetail}" method="post">
+<form th:action="@{/updateStudent}" th:object="${studentDetail}" method="post">
 	<div>
 		<label for="id"></label>
         <input type="hidden" id="id" th:field="*{student.id}"/>
@@ -55,15 +55,24 @@
     <div>
         <label for="startDate1">開始日1：</label>
         <input type="date" id="startDate1"
-               th:field="${studentDetail.studentsCourses[0].startDate}" required/>
+               th:value="${studentDetail.studentsCourses[0].startDate}"
+               th:field="${studentDetail.studentsCourses[0].startDate}"/>
     </div>
     <div>
-		<label for="courseid1"></label>
-        <input type="hidden" id="coucourseid1" th:field="*{studentsCourses[0].id}">
+        <label for="endExpectedDate1"></label>
+        <input type="hidden" id="endExpectedDate1"
+               th:field="${studentDetail.studentsCourses[0].endExpectedDate}"/>
+    </div>
+    <div>
+		<label for="coucourseid1"></label>
+        <input type="hidden" id="coucourseid1"
+               th:field="${studentDetail.studentsCourses[0].id}">
 	</div>
     <div>
 		<label for="studentid1"></label>
-        <input type="hidden" id="studentid1" th:field="*{studentsCourses[0].studentid}">
+        <input type="hidden" id="studentid1"
+               th:value="${studentDetail.studentsCourses[0].studentid}"
+               th:field="${studentDetail.studentsCourses[0].studentid}">
 	</div>
 	
     <div>
@@ -73,33 +82,43 @@
     <div>
         <label for="startDate2">開始日2：</label>
         <input type="date" id="startDate2"
-               th:value="${studentDetail.studentsCourses[1].startDate}"/>
+               th:field="${studentDetail.studentsCourses[1].startDate}"/>
     </div>
     <div>
-		<label for="courseid2"></label>
-        <input type="hidden" id="coucourseid2" th:field="*{studentsCourses[1].id}">
+        <label for="endExpectedDate2"></label>
+        <input type="hidden" id="endExpectedDate2"
+               th:field="${studentDetail.studentsCourses[1].endExpectedDate}"/>
+    </div>
+    <div>
+		<label for="coucourseid2"></label>
+        <input type="hidden" id="coucourseid2" th:field="${studentDetail.studentsCourses[1].id}">
 	</div>
     <div>
 		<label for="studentid2"></label>
-        <input type="hidden" id="studentid2" th:field="*{studentsCourses[1].studentid}">
+        <input type="hidden" id="studentid2" th:field="${studentDetail.studentsCourses[1].studentid}">
 	</div>
 	
     <div>
         <label for="courseName3">コース名3：</label>
-        <input type="text" id="courseName3" th:field="${studentDetail.studentsCourses[2].courseName}" required/>
+        <input type="text" id="courseName3" th:field="${studentDetail.studentsCourses[2].courseName}" >
     </div>
     <div>
         <label for="startDate3">開始日3：</label>
         <input type="date" id="startDate3"
-               th:field="${studentDetail.studentsCourses[3].startDate}"/>
+               th:field="${studentDetail.studentsCourses[2].startDate}"/>
     </div>
     <div>
-		<label for="courseid3"></label>
-        <input type="hidden" id="coucourseid3" th:field="*{studentsCourses[2].id}">
+        <label for="endExpectedDate3"></label>
+        <input type="hidden" id="endExpectedDate3"
+               th:field="${studentDetail.studentsCourses[2].endExpectedDate}"/>
+    </div>
+    <div>
+		<label for="coucourseid3"></label>
+        <input type="hidden" id="coucourseid3" th:field="${studentDetail.studentsCourses[2].id}">
 	</div>
     <div>
 		<label for="studentid3"></label>
-        <input type="hidden" id="studentid3" th:field="*{studentsCourses[2].studentid}">
+        <input type="hidden" id="studentid3" th:field="${studentDetail.studentsCourses[2].studentid}">
 	</div>
 
     <div>

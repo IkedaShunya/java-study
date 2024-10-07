@@ -44,7 +44,7 @@ public interface StudentRepository {
     @Options(useGeneratedKeys = true, keyProperty = "id" )
     void insertByStudent(Student student);
     @Insert("INSERT INTO students_courses(student_ID,course_name,start_date,end_expected_date) " +
-            "VALUES (#{studentID}, #{courseName}, #{startDate}, #{endExpectedDate})")
+            "VALUES (#{studentid}, #{courseName}, #{startDate}, #{endExpectedDate})")
     @Options(useGeneratedKeys = true, keyProperty = "id" )
     void insertByStudentCourse(StudentsCourses studentsCourses);
     
@@ -54,7 +54,7 @@ public interface StudentRepository {
     		+ ",email_address=#{emailAddress},area=#{area},age=#{age},gender=#{gender},remark=#{remark}"
     		+ "WHERE id = #{id}")
     void updateByStudent(Student student);
-    @Update("UPDATE students_courses SET course_name=#{courseName} start_date=#{startDate}"
+    @Update("UPDATE students_courses SET course_name=#{courseName},start_date=#{startDate}"
     		+ ",end_expected_date=#{endExpectedDate} WHERE id = #{id}")
     void updateByStudentCourse(StudentsCourses studentsCourses);
 

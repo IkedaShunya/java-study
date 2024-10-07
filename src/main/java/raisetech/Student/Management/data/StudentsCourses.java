@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class StudentsCourses {
     private Integer id;
-    private Integer studentID;
+    private Integer studentid;
     private String courseName;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;

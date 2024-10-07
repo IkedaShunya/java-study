@@ -63,7 +63,7 @@ public class StudentService {
 		//そのため、studentDetail.getStudent().getId() は自動採番したやつが入っている
 		//TODO：コース情報管理を行う
 		for(StudentsCourses studentsCourse : studentDetail.getStudentsCourses()){
-			studentsCourse.setStudentID(studentDetail.getStudent().getId());
+			studentsCourse.setStudentid(studentDetail.getStudent().getId());
 			//始める日から1年後が終了予定日です
 			studentsCourse.setEndExpectedDate(studentsCourse.getStartDate().plusYears(1));
 			repository.insertByStudentCourse(studentsCourse);
@@ -81,7 +81,7 @@ public class StudentService {
 		//        for(StudentsCourses studentsCourse : studentsCourses) {
 		//            studentsCourses.add(repository.searchCouresbystudentID(studentsCourse.getStudentID()));
 		//        }
-		List<StudentsCourses> studentCourses = repository.searchCouresbystudentID(studentCourse.getStudentID());
+		List<StudentsCourses> studentCourses = repository.searchCouresbystudentID(studentCourse.getStudentid());
 		return studentCourses;
 	}
 
@@ -92,9 +92,9 @@ public class StudentService {
 		for(StudentsCourses studentsCourse : studentDetail.getStudentsCourses()){
 			
 			studentsCourse.setEndExpectedDate(studentsCourse.getStartDate().plusYears(1));
-			if(studentsCourse.getStudentID() == null) {
+			if(studentsCourse.getStudentid() == null) {
 				//StudentID()がない場合はinsert(コース名と開始日を与えて)する
-				studentsCourse.setStudentID(studentDetail.getStudent().getId());
+				studentsCourse.setStudentid(studentDetail.getStudent().getId());
 				repository.insertByStudentCourse(studentsCourse);
 			}else {
 				repository.updateByStudentCourse(studentsCourse);
