@@ -128,6 +128,9 @@ public class StudentController {
             }
             return "registerStudent";
         }
+        if(studentDetail.getStudent().getDeleteFlag() ==null){
+            studentDetail.getStudent().setDeleteFlag(0);
+        }
         //新規受講生情報を登録する処理を実装する
         //コース情報も一緒に登録できるように実装する。コースは単体でいい。
         for(int i =studentDetail.getStudentsCourses().size()-1; i >=0; i--) {
