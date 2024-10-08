@@ -9,7 +9,7 @@ import lombok.Setter;
 public class Student {
     //DBと同じ名前で紐づく
     private String name;
-    private int id;
+    private Integer id;
     //キャメルケースのルールで大文字になる
     private String nameRuby;
     private String nickname;

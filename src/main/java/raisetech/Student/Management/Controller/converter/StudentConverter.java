@@ -1,13 +1,14 @@
 package raisetech.Student.Management.Controller.converter;
 
-import org.springframework.stereotype.Component;
-import raisetech.Student.Management.data.Student;
-import raisetech.Student.Management.data.StudentsCourses;
-import raisetech.Student.Management.domain.StudentDetail;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Component;
+
+import raisetech.Student.Management.data.Student;
+import raisetech.Student.Management.data.StudentsCourses;
+import raisetech.Student.Management.domain.StudentDetail;
 
 @Component
 public class StudentConverter {
@@ -19,9 +20,8 @@ public class StudentConverter {
 
 
             List<StudentsCourses> convertStudnetCourses =
-                    studentsCourses.stream().filter(studentsCourse -> student.getId()
-                                    == (studentsCourse.getStudentid()))
-                            .collect(Collectors.toList());
+                    studentsCourses.stream().filter(studentsCourse -> student.getId().equals(studentsCourse.getStudentid()))  // equalsを使って比較
+                    .collect(Collectors.toList());
 
 
             //山田のstudent.getId　＝全件studentsCourse.getStudentID())　がリスとにはいる

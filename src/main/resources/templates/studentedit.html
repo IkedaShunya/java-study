@@ -7,6 +7,9 @@
 </head>
 <body>
 <h1>受講生情報の編集</h1>
+<div>
+	ID: <span th:text="${studentDetail.student.id}"></span>
+</div>
 <form th:action="@{/updateStudent}" th:object="${studentDetail}" method="post">
 	<div>
 		<label for="id"></label>
@@ -119,6 +122,14 @@
     <div>
 		<label for="studentid3"></label>
         <input type="hidden" id="studentid3" th:field="${studentDetail.studentsCourses[2].studentid}">
+	</div>
+	<div>
+	<!-- チェックが外れているときにはこのhiddenの値が送信される -->
+    <input type="hidden" th:field="*{student.deleteFlag}" value="0">
+	</div>
+	<div>
+		<label for="deleteFlag">削除</label>
+        <input type="checkbox" id="deleteFlag" th:field="*{student.deleteFlag}" value="1">
 	</div>
 
     <div>
