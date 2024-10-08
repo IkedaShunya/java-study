@@ -24,18 +24,18 @@ public interface StudentRepository {
     /**
      * 全件検索をします
      */
-    @Select("SELECT * FROM students")
+    @Select("SELECT * FROM students WHERE delete_flag = 0 ORDER BY id")
     List<Student> searchBystudent();
-    @Select("SELECT * FROM students_courses")
+    @Select("SELECT * FROM students_courses WHERE student_id IN (SELECT id FROM students WHERE delete_flag = 0) ORDER BY id")
     List<StudentsCourses> searchBystudentCourese();
 
     /**
      * ID検索
      */
-    @Select("SELECT * FROM students WHERE id IN (#{id}) ")
+    @Select("SELECT * FROM students WHERE id IN (#{id}) ORDER BY id ")
     Student searchIdBystudent(int id);
 
-    @Select("SELECT * FROM students_courses WHERE student_ID IN (#{studentid}) ")
+    @Select("SELECT * FROM students_courses WHERE student_id IN (#{studentid}) ORDER BY id")
     List<StudentsCourses>  searchCouresbystudentID(int id);
 
     @Insert("INSERT INTO students(name,name_ruby,nickname,email_address,area,age,gender,remark,delete_flag) " +
@@ -43,16 +43,14 @@ public interface StudentRepository {
     // @Options(useGeneratedKeys = true, keyProperty = "id" ) idが自動採番と伝える
     @Options(useGeneratedKeys = true, keyProperty = "id" )
     void insertByStudent(Student student);
-    @Insert("INSERT INTO students_courses(student_ID,course_name,start_date,end_expected_date) " +
+    @Insert("INSERT INTO students_courses(student_id,course_name,start_date,end_expected_date) " +
             "VALUES (#{studentid}, #{courseName}, #{startDate}, #{endExpectedDate})")
     @Options(useGeneratedKeys = true, keyProperty = "id" )
     void insertByStudentCourse(StudentsCourses studentsCourses);
     
     
     
-    @Update("UPDATE students SET name =#{name}, name_ruby=#{nameRuby}, nickname=#{nickname}"
-    		+ ",email_address=#{emailAddress},area=#{area},age=#{age},gender=#{gender},remark=#{remark}"
-    		+ "WHERE id = #{id}")
+    @Update("UPDATE students SET name=#{name}, name_ruby=#{nameRuby}, nickname=#{nickname},email_address=#{emailAddress},area=#{area},age=#{age},gender=#{gender},remark=#{remark}, delete_flag=#{deleteFlag} WHERE id=#{id}")
     void updateByStudent(Student student);
     @Update("UPDATE students_courses SET course_name=#{courseName},start_date=#{startDate}"
     		+ ",end_expected_date=#{endExpectedDate} WHERE id = #{id}")

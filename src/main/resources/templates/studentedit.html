@@ -7,6 +7,9 @@
 </head>
 <body>
 <h1>受講生情報の編集</h1>
+<div>
+	ID: <span th:text="${studentDetail.student.id}"></span>
+</div>
 <form th:action="@{/updateStudent}" th:object="${studentDetail}" method="post">
 	<div>
 		<label for="id"></label>
@@ -38,7 +41,7 @@
     </div>
     <div>
         <label for="gender">性別:</label>
-        <select id="gender" th:field=="*{student.gender}">
+        <select id="gender" th:field="*{student.gender}">
             <option value="男">男</option>
             <option value="女">女</option>
             <option value="その他">その他</option>
@@ -46,7 +49,7 @@
     </div>
     <div>
         <label for="remark">備考：</label>
-        <input type="text" id="remark" th:field=="*{student.remark}">
+        <input type="text" id="remark" th:field="*{student.remark}">
     </div>
     <div>
         <label for="courseName1">コース名1：</label>
@@ -120,6 +123,22 @@
 		<label for="studentid3"></label>
         <input type="hidden" id="studentid3" th:field="${studentDetail.studentsCourses[2].studentid}">
 	</div>
+    <div>
+
+    </div>
+<!--    <input type="hidden" th:field="*{student.deleteFlag}" value="0"/>-->
+    <div>
+        <!-- チェックが外れているときにはこのhiddenの値が送信される -->
+<!--        <input type="hidden" name ="deleteFlag" th:field="*{student.deleteFlag}" value="0"/>-->
+
+        <label for="deleteFlag">削除</label>
+        <!-- チェックされている場合、このチェックボックスの値が送信される -->
+        <input type="checkbox" id="deleteFlag"  name ="deleteFlag"  th:field="*{student.deleteFlag}" value="1"/>
+    </div>
+
+<!--        &lt;!&ndash; チェックされている場合、このチェックボックスの値が送信される &ndash;&gt;-->
+
+    </div>
 
     <div>
         <button type="submit"> 登録</button>
