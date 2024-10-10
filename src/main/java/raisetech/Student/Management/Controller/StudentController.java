@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import raisetech.Student.Management.Controller.converter.StudentConverter;
 import raisetech.Student.Management.data.Student;
@@ -47,14 +47,14 @@ public class StudentController {
 
     }
 
-    @GetMapping("/newStudent")
-    public String newStudent(Model model){
-        //th:object="${studentDetail}はGetしたときも使われるが
-        //表示するときに{studentDetail}がなければエラーが発生してします
-        // そのためからのstudentDetailをセットする
-        model.addAttribute("studentDetail", new StudentDetail());
-        return  "registerStudent";
-    }
+//    @GetMapping("/newStudent")
+//    public String newStudent(Model model){
+//        //th:object="${studentDetail}はGetしたときも使われるが
+//        //表示するときに{studentDetail}がなければエラーが発生してします
+//        // そのためからのstudentDetailをセットする
+//        model.addAttribute("studentDetail", new StudentDetail());
+//        return  "registerStudent";
+//    }
 
 
     //registerStudent.htmlファイルの「<form th:action="@{/registerStudent}」
@@ -64,17 +64,14 @@ public class StudentController {
     //@ModelAttribute はModel(StudentDetail student)に対してHTMLでPOSTの引数を入れますよ
     // BindingResult result は入力チェック（Studentクラスでバリデーションチェック(@つけるだけ)できる　文字の長さとか）
     //ここに入った時点でチェックしてくれる　
-    public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result){
-        if(result.hasErrors()){
-            return "registerStudent";
-        }
+    public ResponseEntity<String> registerStudent(@RequestBody StudentDetail studentDetail){
         //新規受講生情報を登録する処理を実装する
         //コース情報も一緒に登録できるように実装する。コースは単体でいい。
-        service.insert(studentDetail);
+    	service.insert(studentDetail);
+    	return ResponseEntity.ok("登録できました");
 
 
-        //studentlistのページに飛ばす
-        return "redirect:/studentlist";
+     
     }
     
 
