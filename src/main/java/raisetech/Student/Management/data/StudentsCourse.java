@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class StudentsCourses {
+public class StudentsCourse {
     private Integer id;
     private Integer studentid;
     private String courseName;

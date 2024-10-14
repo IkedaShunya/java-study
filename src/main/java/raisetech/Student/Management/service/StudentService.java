@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import raisetech.Student.Management.Controller.converter.StudentConverter;
 import raisetech.Student.Management.data.Student;
-import raisetech.Student.Management.data.StudentsCourses;
+import raisetech.Student.Management.data.StudentsCourse;
 import raisetech.Student.Management.domain.StudentDetail;
 import raisetech.Student.Management.repository.StudentRepository;
 
@@ -31,10 +31,15 @@ public class StudentService {
 		this.converter = converter;
 	}
 
+	/**
+	 * 受講生詳細の一覧検索です。全件検索を行うので、条件指定は行いません。
+	 *
+	 * @return　受講生一覧（全件）
+	 */
 	public List<StudentDetail> searchStudentList(){
 		List<Student> students = repository.searchBystudent();
-		List<StudentsCourses> studentsCourses = repository.searchBystudentCourese();
-		return converter.convertstudentDetails(students, studentsCourses);
+		List<StudentsCourse> studentCourseList = repository.searchBystudentCourese();
+		return converter.convertstudentDetails(students, studentCourseList);
 	}
 
 
@@ -42,53 +47,74 @@ public class StudentService {
 
 	/**
 	 * 受講生検索です、
-	 * IDに紐づく受講生情報を取得した後、その受講生に紐づく受講生コース情報を取得して設定します
-	 *
-	 * @return
+	 * IDに紐づく受講生詳細情報を取得した後、その受講生に紐づく受講生コース情報を取得して設定します
+	 * @param id 受講生ID
+	 * @return　受講生詳細
 	 */
 
 	//IDで受講者情報の検索
 	public StudentDetail searchStudentbyId(Integer id){
 		Student student = repository.searchIdBystudent(id);
-		List<StudentsCourses> studentCourses = repository.searchCouresbystudentID(id);
+		List<StudentsCourse> studentCourseList = repository.searchcouresbystudentid(id);
 
 
-		return new StudentDetail(student,studentCourses);
+		return new StudentDetail(student,studentCourseList);
 
 	}
 
 	//IDで受講者コース情報の検索
-	public List<StudentsCourses> searchStudentCouresbyId(StudentsCourses studentCourse){
-		List<StudentsCourses> studentCourses = repository.searchCouresbystudentID(studentCourse.getStudentid());
+	public List<StudentsCourse> searchStudentCouresbyId(StudentsCourse studentCourse){
+		List<StudentsCourse> studentCourses = repository.searchcouresbystudentid(studentCourse.getStudentid());
 		return studentCourses;
 	}
 
 
-
-	//@Transactional　トランザクション処理をする。　serviceに入れる必要がある。
+	/**
+	 * 受講生詳細の登録を行います。
+	 * 受講生と受講生コース情報を個別に登録して、受講生コース情報には受講生情報を紐づける値や日付情報（受講生開始日など）
+	 *
+	 * @param studentDetail　受講生詳細
+	 * @return　登録を付与した受講生詳細
+	 */
 	@Transactional
 	public StudentDetail insert(StudentDetail studentDetail){
+		//準備
+		Student student = studentDetail.getStudent();
 
-		repository.insertByStudent(studentDetail.getStudent());
-		//↑の処理が終わったらStudentオブジェクトの中にIdは入っている
-		//そのため、studentDetail.getStudent().getId() は自動採番したやつが入っている
-		//TODO：コース情報管理を行う
-		for(StudentsCourses studentsCourse : studentDetail.getStudentsCourses()){
-			studentsCourse.setStudentid(studentDetail.getStudent().getId());
-			//始める日から1年後が終了予定日です
-			studentsCourse.setEndExpectedDate(studentsCourse.getStartDate().plusYears(1));
+		//やりたいことやる
+		repository.insertByStudent(student);
+        studentDetail.getStudentsCourseList().forEach(studentsCourse -> {
+			initStudentsCourse(studentsCourse, student);
 			repository.insertByStudentCourse(studentsCourse);
-		}
+        });
+
 		return studentDetail;
 	}
 
+	/**
+	 * 受講生コース情報を登録する際の初期情報を設定する
+	 *
+	 *
+	 * @param studentsCourse　受講生コース情報
+	 * @param student　受講生
+	 */
+	private static void initStudentsCourse(StudentsCourse studentsCourse, Student student) {
+		studentsCourse.setStudentid(student.getId());
+		studentsCourse.setEndExpectedDate(studentsCourse.getStartDate().plusYears(1));
+	}
 
+	/**
+	 *
+	 * 受講生詳細の更新を行う。受講生と受講生コース情報をそれぞれ更新します。
+	 *
+	 * @param studentDetail　
+	 */
 	@Transactional
 	public void update(StudentDetail studentDetail){
 
 		repository.updateByStudent(studentDetail.getStudent());
-		for(StudentsCourses studentsCourse : studentDetail.getStudentsCourses()){
-			
+		for(StudentsCourse studentsCourse : studentDetail.getStudentsCourseList()){
+
 			studentsCourse.setEndExpectedDate(studentsCourse.getStartDate().plusYears(1));
 			if(studentsCourse.getStudentid() == null) {
 				//StudentID()がない場合はinsert(コース名と開始日を与えて)する
@@ -97,8 +123,8 @@ public class StudentService {
 			}else {
 				repository.updateByStudentCourse(studentsCourse);
 			}
-			
-			
+
+
 		}
 	}
 

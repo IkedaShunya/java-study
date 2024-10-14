@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import raisetech.Student.Management.data.Student;
-import raisetech.Student.Management.data.StudentsCourses;
+import raisetech.Student.Management.data.StudentsCourse;
 import raisetech.Student.Management.domain.StudentDetail;
 
 /**
@@ -22,26 +22,26 @@ public class StudentConverter {
      * 受講生コース情報を受講生に対して複数存在するのでループ回して受講生詳細をくみたためる
      *
      *
-     * @param students　受講生一覧
-     * @param studentsCourses　受講生コース情報のリスト
+     * @param studentList　受講生一覧
+     * @param studentCourseList　受講生コース情報のリスト
      * @return　受講生詳細リスト
      */
 
 
-    public List<StudentDetail>  convertstudentDetails(List<Student> students, List<StudentsCourses> studentsCourses) {
+    public List<StudentDetail>  convertstudentDetails(List<Student> studentList, List<StudentsCourse> studentCourseList) {
         List<StudentDetail> studentDetails = new ArrayList<>();
-        students.forEach(student -> {
+        studentList.forEach(student -> {
             StudentDetail studentDetail = new StudentDetail();
             studentDetail.setStudent(student);
 
 
-            List<StudentsCourses> convertStudnetCourses =
-                    studentsCourses.stream().filter(studentsCourse -> student.getId().equals(studentsCourse.getStudentid()))  // equalsを使って比較
+            List<StudentsCourse> convertStudnetCourseList =
+                    studentCourseList.stream().filter(studentsCourse -> student.getId().equals(studentsCourse.getStudentid()))  // equalsを使って比較
                     .collect(Collectors.toList());
 
 
             //山田のstudent.getId　＝全件studentsCourse.getStudentID())　がリスとにはいる
-            studentDetail.setStudentsCourses(convertStudnetCourses);
+            studentDetail.setStudentsCourseList(convertStudnetCourseList);
             studentDetails.add(studentDetail);
         });
         return studentDetails;
