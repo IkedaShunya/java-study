@@ -1,9 +1,7 @@
 package raisetech.Student.Management.data;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,11 +14,13 @@ public class Student {
     @NotNull(message = "名前をいれてください")
     private String name;
 
+
     private Integer id;
     //キャメルケースのルールで大文字になる
     @Size(min=1, max = 3)
     private String nameRuby;
     private String nickname;
+    @Email
     private String emailAddress;
     private String area;
     private int age;
