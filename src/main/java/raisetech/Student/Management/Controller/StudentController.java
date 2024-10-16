@@ -3,6 +3,8 @@ package raisetech.Student.Management.Controller;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,7 @@ public class StudentController {
      * @return　受講生一覧（全件）
      */
 
+    @Operation(summary = "要約",description = "説明")
     @GetMapping("/studentlist")
     public List<StudentDetail> getStudentList() {
         return service.searchStudentList();
@@ -64,6 +67,7 @@ public class StudentController {
      * @return　実行結果
      */
 
+    @Operation(summary = "受講生登録",description = "受講生を登録します" ,responses = {@ApiResponse(responseCode = "400")})
     @PostMapping("/registerStudent")
     //StudentDetailオブジェクトにも＠Validを適用させる必要がある
     public ResponseEntity<StudentDetail> registerStudent(@RequestBody @Valid StudentDetail studentDetail){

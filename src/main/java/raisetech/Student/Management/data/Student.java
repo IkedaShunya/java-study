@@ -1,11 +1,13 @@
 package raisetech.Student.Management.data;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+@Schema(description = "受講生情報")
 @Getter
 @Setter
 //Mybatisが自動的にDBの情報をセットしてくれるいれもの
