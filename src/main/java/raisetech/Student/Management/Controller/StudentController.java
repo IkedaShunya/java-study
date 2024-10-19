@@ -4,14 +4,14 @@ package raisetech.Student.Management.Controller;
 import java.util.List;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import raisetech.Student.Management.ExceptionHandler.TestException;
 import raisetech.Student.Management.domain.StudentDetail;
 import raisetech.Student.Management.service.StudentService;
 
@@ -37,6 +37,10 @@ public class StudentController {
         this.service = service;
 
     }
+    @GetMapping("/errtest")
+    public void errTest() throws TestException{
+        throw new TestException("現在このAPIは利用できません、");
+    }
 
     /**
      * 受講生詳細一覧検索
@@ -46,10 +50,10 @@ public class StudentController {
      */
 
     @GetMapping("/studentlist")
-    public List<StudentDetail> getStudentList(){
-
+    public List<StudentDetail> getStudentList() {
         return service.searchStudentList();
     }
+
 
 
     /**
