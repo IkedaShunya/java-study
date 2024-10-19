@@ -1,5 +1,6 @@
 package raisetech.Student.Management.domain;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import raisetech.Student.Management.data.StudentsCourse;
 
 import java.util.List;
 
+@Schema(description = "受講生詳細")
 @Getter
 @Setter
 //引数を全く使わないコンストラクタ
