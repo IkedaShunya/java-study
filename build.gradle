@@ -29,6 +29,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	//Thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.3.4'
+	//Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	//	Apache Commons Lang 便利機能 豊富な機能たち　下記だけ簡単にライブライ追加できる
 	implementation 'org.apache.commons:commons-lang3:3.17.0'
 	annotationProcessor 'org.projectlombok:lombok'

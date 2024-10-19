@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--どのマッパーに紐づくか定義する-->
+<mapper namespace="raisetech.Student.Management.repository.StudentRepository">
+
+    <!--id=の部分はメソッド名 resultType=の部分は結果のオブジェクト名-->
+    <!-- 受講生情報の全件検索-->
+    <select id="searchBystudent" resultType="raisetech.Student.Management.data.Student">
+        SELECT * FROM students WHERE delete_flag = 0 ORDER BY id
+    </select>
+
+    <!-- 受講生情報の単一検索-->
+    <select id="searchIdBystudent" resultType="raisetech.Student.Management.data.Student">
+        SELECT * FROM students WHERE id IN (#{id}) ORDER BY id
+    </select>
+
+    <!--受講生のコース情報の全件検索を行います-->
+    <select id="searchBystudentCourese" resultType="raisetech.Student.Management.data.StudentsCourse">
+        SELECT * FROM students_courses WHERE student_id IN (SELECT id FROM students WHERE delete_flag = 0) ORDER BY id
+    </select>
+
+    <!--IDに紐づく受講生コース情報の検索を行います-->
+    <select id="searchcouresbystudentid" resultType="raisetech.Student.Management.data.StudentsCourse">
+        SELECT * FROM students_courses WHERE student_id IN (#{studentid}) ORDER BY id
+    </select>
+
+    <!--受講生情報を新規登録します。 IDに関しては自動採番を行う-->
+    <insert id="insertByStudent" useGeneratedKeys = "true" keyProperty = "id">
+        INSERT INTO students(name,name_ruby,nickname,email_address,area,age,gender,remark,delete_flag)
+        VALUES (#{name}, #{nameRuby}, #{nickname}, #{emailAddress}, #{area}, #{age}, #{gender} ,#{remark},0)
+    </insert>
+
+    <!--受講生コース情報を新規登録します。 IDに関しては自動採番を行う-->
+    <insert id="insertByStudentCourse" useGeneratedKeys = "true" keyProperty = "id">
+        INSERT INTO students_courses(student_id,course_name,start_date,end_expected_date)
+        VALUES (#{studentid}, #{courseName}, #{startDate}, #{endExpectedDate})
+    </insert>
+
+    <!--受講生を更新します-->
+    <update id="updateByStudent">
+        UPDATE students
+        SET name=#{name}, name_ruby=#{nameRuby},
+        nickname=#{nickname},email_address=#{emailAddress},
+        area=#{area},age=#{age},
+        gender=#{gender},remark=#{remark},
+        delete_flag=#{deleteFlag}
+        WHERE id=#{id}
+    </update>
+
+    <!--受講生コース情報のコース名を更新します-->
+    <update id="updateByStudentCourse">
+        UPDATE students_courses
+        SET course_name=#{courseName},start_date=#{startDate},
+        end_expected_date=#{endExpectedDate}
+        WHERE id = #{id}
+    </update>
+
+
+
+
+</mapper>
