@@ -10,8 +10,24 @@ import raisetech.Student.Management.data.Student;
 import raisetech.Student.Management.data.StudentsCourses;
 import raisetech.Student.Management.domain.StudentDetail;
 
+/**
+ * 受講生と受講生コース情報を受講生詳細に変換するもしくはその逆を行うコンバーター
+ *
+ */
+
 @Component
 public class StudentConverter {
+    /**
+     * 受講生に紐づく受講生コース情報をマッピングする
+     * 受講生コース情報を受講生に対して複数存在するのでループ回して受講生詳細をくみたためる
+     *
+     *
+     * @param students　受講生一覧
+     * @param studentsCourses　受講生コース情報のリスト
+     * @return　受講生詳細リスト
+     */
+
+
     public List<StudentDetail>  convertstudentDetails(List<Student> students, List<StudentsCourses> studentsCourses) {
         List<StudentDetail> studentDetails = new ArrayList<>();
         students.forEach(student -> {
