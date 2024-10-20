@@ -13,7 +13,7 @@ import lombok.Setter;
 //Mybatisが自動的にDBの情報をセットしてくれるいれもの
 public class Student {
     //DBと同じ名前で紐づく
-    @NotNull(message = "名前をいれてください")
+    //@NotNull(message = "名前をいれてください")
     private String name;
 
 

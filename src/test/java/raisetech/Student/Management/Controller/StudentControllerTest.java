@@ -4,16 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
-import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.stereotype.Service;
+import org.springframework.test.web.servlet.*;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import raisetech.Student.Management.data.Student;
 import raisetech.Student.Management.data.StudentsCourse;
@@ -35,10 +34,14 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(StudentController.class)
+//@TestMethodOrder()で順序を決める
 class StudentControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
     private StudentService service;
@@ -46,9 +49,12 @@ class StudentControllerTest {
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @Test
+    //@RepeatedTest()指定回数分テストを実行する
+    //@ParameterizedTest()引数に複数のパラメータテストを行う
     void エラー処理が流れられること() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/errtest"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("現在このAPIは利用できません、"));
     }
 
     @Test
@@ -66,7 +72,9 @@ class StudentControllerTest {
 
     }
     @Test
-    void 受講生情報の登録処理ができること() throws Exception{
+    void 受講生情報の登録処理ができてからで返ってくること() throws Exception{
+        //リクエストデータは適切に構築して入力チェックの検証も兼ねている
+        //本来であれば、返りは登録したデータが入るが、モック化すると意味がないため、レスポンスは作らない、
         String id = "1";
         Student student = new Student();
         student.setName("Test Name");
@@ -74,20 +82,37 @@ class StudentControllerTest {
         List<StudentsCourse> studentsCourseList = new ArrayList<>();
         StudentDetail studentDetail = new StudentDetail(student, studentsCourseList);
 
-        when(service.insert(studentDetail)).thenReturn(studentDetail);
+        //when(service.insert(studentDetail)).thenReturn(studentDetail);
 
         // StudentDetail オブジェクトを JSON にシリアライズするために ObjectMapper を使用
-        ObjectMapper objectMapper = new ObjectMapper();
-        String studentDetailJson = objectMapper.writeValueAsString(studentDetail);
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String studentDetailJson = objectMapper.writeValueAsString(studentDetail);
+        String requestBody = objectMapper.writeValueAsString(studentDetail);
 
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/registerStudent")
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/registerStudent")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(studentDetailJson)) // ここでリクエストボディを指定
-                .andExpect(status().isOk()) ;// 正常なレスポンスを期
+                .content(
+                        " {\"student\":{\"name\":\"Test Name\",\"id\":1,\"nameRuby\":null,\"nickname\":null,\"emailAddress\":null,\"area\":null,\"age\":0,\"gender\":null,\"remark\":null,\"deleteFlag\":null},\"studentsCourseList\":[]}")) // ここでリクエストボディを指定
+                .andExpect(status().isOk())
+                .andReturn();
 
 
-    }
+
+        // レスポンスの内容を文字列で取得
+        String jsonResponse = result.getResponse().getContentAsString();
+        System.out.println("レスポンスのJSON: " + jsonResponse);
+
+        // リクエストの内容も出力
+        System.out.println("リクエストのJSON: " + requestBody);
+        //anyは何でもいいよ！mockMvcはリクエストを作っている
+        verify(service, times(1)).insert(any());
+        }
+
+
+
+
 
 
     @Test
@@ -101,7 +126,7 @@ class StudentControllerTest {
         when(service.searchStudentbyId(Integer.parseInt(id))).thenReturn(studentDetail);
 
         //Getメソッドの検証
-        mockMvc.perform(MockMvcRequestBuilders.get("/student/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/student/{id}" ,id))
                 //検証したい内容は何ですか？
                 .andExpect(status().isOk())
                 //どんなJsonの中身を期待していますか
@@ -110,6 +135,8 @@ class StudentControllerTest {
         verify(service, times(1)).searchStudentbyId(Integer.parseInt(id));
 
     }
+
+
 
 
 
@@ -169,6 +196,53 @@ class StudentControllerTest {
         //Assertions.assertEquals(2, violations.size());
         assertThat(violations.size()).isEqualTo(2);
         assertThat(violations).extracting("message").containsOnly( "1 から 3 の間のサイズにしてください","電子メールアドレスとして正しい形式にしてください");
+
+    }
+
+    @Test
+    void 受講生詳細のアップデートを実施() throws Exception{
+        //テスト用のStudentoDetailオブジェクトを作成
+        Student student = new Student();
+        student.setName("Test Name");
+        student.setId(1);
+        student.setDeleteFlag(null);
+        StudentsCourse course1 = new StudentsCourse();
+        course1.setCourseName("Math");
+        StudentsCourse course2 = new StudentsCourse();
+        course2.setCourseName("");
+        List<StudentsCourse> studentsCourseList = new ArrayList<>();
+        studentsCourseList.add(course1);
+        studentsCourseList.add(course2);
+        StudentDetail studentDetail = new StudentDetail(student, studentsCourseList);
+
+
+        // サービスのモックの動作を定義
+        when(service.insert(any(StudentDetail.class))).thenReturn(studentDetail);
+
+        // リクエストボディを JSON 形式にシリアライズ
+        String requestBody = objectMapper.writeValueAsString(studentDetail);
+
+
+        // テスト対象のコントローラに対してPOSTリクエストを実行
+
+        // PUT リクエストを実行し、結果を MvcResult として取得
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/updateStudent")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)) // リクエストボディを設定
+                        .andExpect(status().isOk()) // HTTPステータスが200 OKであることを確認
+                .andExpect(jsonPath("$.student.deleteFlag").value(0)) // deleteFlag が 0 に設定されていることを確認
+                .andExpect(jsonPath("$.student.name").value("Test Name")) // レスポンスJSON内のnameフィールドを検証
+                .andExpect(jsonPath("$.student.id").value(1)) // レスポンスJSON内のidフィールドを検証
+                .andExpect(jsonPath("$.studentsCourseList.length()").value(1)) // 空のコース名が削除され、リストのサイズが 1 であることを確認
+                .andExpect(jsonPath("$.studentsCourseList[0].courseName").value("Math"))
+                .andReturn(); // 結果を MvcResult として返す; // 残っているコース名を確認
+
+        // レスポンスの内容を文字列で取得
+        String jsonResponse = result.getResponse().getContentAsString();
+        System.out.println("レスポンスのJSON: " + jsonResponse);
+
+        // リクエストの内容も出力
+        System.out.println("リクエストのJSON: " + requestBody);
 
     }
 }
