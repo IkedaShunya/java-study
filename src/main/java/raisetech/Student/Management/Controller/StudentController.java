@@ -72,10 +72,15 @@ public class StudentController {
      * @param studentDetail　受講生詳細
      * @return　実行結果
      */
+    	//1.クライアントから送信されたリクエストボディ (例えば、JSON形式の学生情報) が StudentDetail オブジェクトに変換されます
+        //2.@Valid によって、StudentDetail オブジェクトがバリデーションされます。バリデーションに失敗した場合、400 Bad Requestのエラーが返されます。
+        //3.バリデーションが成功した場合、service.insert(studentDetail) によって学生情報が登録 (または保存) されます。
+        //4.保存された学生情報を含むレスポンスが 200 OK ステータスとともに返されます。
 
     @Operation(summary = "受講生登録",description = "受講生を登録します")
     @PostMapping("/registerStudent")
     //StudentDetailオブジェクトにも＠Validを適用させる必要がある
+    //
     public ResponseEntity<StudentDetail> registerStudent(@RequestBody @Valid StudentDetail studentDetail){
          	return ResponseEntity.ok(service.insert(studentDetail));
     }
@@ -85,7 +90,7 @@ public class StudentController {
     @GetMapping("/student/{id}")
     //@PathVariableで{id}"を引数のString idに入れてくれる
     //1~3桁までしかいれれない
-    public StudentDetail getStudent(@PathVariable @Size(min=1, max = 3) String id){
+    public StudentDetail getStudent(@PathVariable  @Valid @Size(min=1, max = 3) String id){
         return  service.searchStudentbyId(Integer.parseInt(id));
 
     }

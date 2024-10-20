@@ -62,12 +62,6 @@ public class StudentService {
 
 	}
 
-	//IDで受講者コース情報の検索
-	public List<StudentsCourse> searchStudentCouresbyId(StudentsCourse studentCourse){
-		List<StudentsCourse> studentCourses = repository.searchcouresbystudentid(studentCourse.getStudentid());
-		return studentCourses;
-	}
-
 
 	/**
 	 * 受講生詳細の登録を行います。
@@ -83,12 +77,12 @@ public class StudentService {
 
 		//やりたいことやる
 		repository.insertByStudent(student);
-        studentDetail.getStudentsCourseList().forEach(studentsCourse -> {
-			initStudentsCourse(studentsCourse, student);
-			repository.insertByStudentCourse(studentsCourse);
-        });
+        for (StudentsCourse studentsCourse : studentDetail.getStudentsCourseList()) {
+            initStudentsCourse(studentsCourse, student);
+            repository.insertByStudentCourse(studentsCourse);
+        }
 
-		return studentDetail;
+        return studentDetail;
 	}
 
 	/**
@@ -98,7 +92,7 @@ public class StudentService {
 	 * @param studentsCourse　受講生コース情報
 	 * @param student　受講生
 	 */
-	private static void initStudentsCourse(StudentsCourse studentsCourse, Student student) {
+	void initStudentsCourse(StudentsCourse studentsCourse, Student student) {
 		studentsCourse.setStudentid(student.getId());
 		studentsCourse.setEndExpectedDate(studentsCourse.getStartDate().plusYears(1));
 	}
