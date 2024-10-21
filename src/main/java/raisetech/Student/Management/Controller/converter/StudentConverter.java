@@ -30,20 +30,24 @@ public class StudentConverter {
 
     public List<StudentDetail>  convertstudentDetails(List<Student> studentList, List<StudentsCourse> studentCourseList) {
         List<StudentDetail> studentDetails = new ArrayList<>();
-        studentList.forEach(student -> {
+        for (Student student : studentList) {
             StudentDetail studentDetail = new StudentDetail();
             studentDetail.setStudent(student);
 
 
-            List<StudentsCourse> convertStudnetCourseList =
-                    studentCourseList.stream().filter(studentsCourse -> student.getId().equals(studentsCourse.getStudentid()))  // equalsを使って比較
-                    .collect(Collectors.toList());
+            // equalsを使って比較
+            List<StudentsCourse> convertStudnetCourseList =new ArrayList<>();
+            for (StudentsCourse studentsCourse : studentCourseList) {
+                if (student.getId().equals(studentsCourse.getStudentid())) {
+                    convertStudnetCourseList.add(studentsCourse);
+                }
+            }
 
 
             //山田のstudent.getId　＝全件studentsCourse.getStudentID())　がリスとにはいる
             studentDetail.setStudentsCourseList(convertStudnetCourseList);
             studentDetails.add(studentDetail);
-        });
+        }
         return studentDetails;
     }
 

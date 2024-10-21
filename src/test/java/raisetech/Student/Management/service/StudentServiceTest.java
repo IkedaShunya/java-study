@@ -80,7 +80,7 @@ class StudentServiceTest {
         //＜検証＞
         //→ テストの検証の対象　List<StudentDetail> actual = sut.searchStudentList();
         //こなっているいるであろう値（expected）と実際の値（actual）を比較する
-        //Assertions.assertEquals(expected, actual);　　
+        //Assertions.assertEquals(expected, actual);
 
         //serviceはほとんどverify
         //verify(xx,times(num)).yy xxインスタンスのyyメソッドをnum回呼び出したか検証　ダメだったらエラー分がでる、expectedいらなくなる
