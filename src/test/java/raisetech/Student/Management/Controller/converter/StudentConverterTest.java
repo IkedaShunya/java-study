@@ -61,7 +61,7 @@ class StudentConverterTest {
         course2.setCourseName("Science");
         studentCourseList.add(course2);
         StudentsCourse course3 = new StudentsCourse();
-        course3.setStudentid(1);
+        course3.setStudentid(7);
         course3.setCourseName("History");
         studentCourseList.add(course3);
 
@@ -69,16 +69,18 @@ class StudentConverterTest {
 
         // 実行
         List<StudentDetail> actual = sut.convertstudentDetails(studentList, studentCourseList);
-
+        //isEqualTo
         assertEquals(4, actual.size());
         assertEquals(1, actual.get(0).getStudent().getId());
-        assertEquals("History",actual.get(0).getStudentsCourseList().get(2).getCourseName());
+        assertEquals("Science",actual.get(0).getStudentsCourseList().get(1).getCourseName());
 
         assertEquals(4, actual.get(3).getStudent().getId());
         assertEquals(0, actual.get(3).getStudentsCourseList().size());
 
+
+
     }
 
-
+//himoづかない除外されること
 
 }
