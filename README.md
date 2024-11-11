@@ -1,26 +1,28 @@
-| students | CREATE TABLE `students` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) DEFAULT NULL,
-  `name_ruby` varchar(100) DEFAULT NULL,
-  `nickname` varchar(100) DEFAULT NULL,
-  `email_address` varchar(100) DEFAULT NULL,
-  `area` varchar(100) DEFAULT NULL,
-  `age` int DEFAULT NULL,
-  `gender` varchar(100) DEFAULT NULL,
-  `remark` varchar(30) DEFAULT NULL,
-  `delete_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0:non_delete 1:delete',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `ID` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 |
+# 受講生管理システム
+ - 受講生情報を管理するシステムです。<br >
+ - 受講生情報の検索・登録・編集・削除ができます。 <br >
+ - REST APIにて実装 <br >
 
-| students_courses | CREATE TABLE `students_courses` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `student_ID` int DEFAULT NULL,
-  `course_name` varchar(30) DEFAULT NULL,
-  `start_date` date DEFAULT NULL,
-  `end_expected_date` date DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `course_ID` (`id`),
-  KEY `student_ID` (`student_ID`),
-  CONSTRAINT `students_courses_ibfk_1` FOREIGN KEY (`student_ID`) REFERENCES `students` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 |
+## 使用技術
+- Java21
+- springframework3.3.4
+- MySQL 5.7
+- mybatis3.0.3
+- junit
+- Thymeleaf（RestAPI実装前）
+- mysql8.4.2
+
+## 機能一覧
+- 受講生情報の登録、削除、編集、検索
+- 受講生コース情報の登録、削除、編集、検索
+- 登録の際に例外処理の発生
+- バリデーションのチェック
+
+## DB設計（テーブル構成）
+- 受講生情報
+  - 受講生名前,受講生ID(主キー,外部キー),受講生フリガナ,ニックネーム,アドレス,地域,年齢,性別,備考,削除フラグ
+- 受講生コース情報
+  -受講生コースID(主キー),受講生ID(外部キー),コース名,コース開始日付,コース終了日付
+
+
+    
