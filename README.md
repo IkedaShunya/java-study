@@ -11,6 +11,7 @@
 - junit
 - Thymeleaf（RestAPI実装前）
 - mysql8.4.2
+- MVCモデル
 
 ## 機能一覧
 - 受講生情報の登録、削除、編集、検索
