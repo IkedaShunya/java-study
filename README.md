@@ -1,7 +1,12 @@
 # 受講生管理システム
  - 受講生情報を管理するシステ。<br >
  - 受講生情報の検索・登録・編集・削除が可能 <br >
+ 例）受講生情報の登録<br >
+ ![image](https://github.com/user-attachments/assets/1426ef1b-2b1f-4548-bd9a-39a9af356107)<br >
+
  - REST APIにて実装 <br >
+例）REST API実装後の受講生情報の登録<br >
+
 
 ## 使用技術
 - Java21
