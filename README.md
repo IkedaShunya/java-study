@@ -1,11 +1,14 @@
 # 受講生管理システム
  - 受講生情報を管理するシステ。<br >
  - 受講生情報の検索・登録・編集・削除が可能 <br >
- 例）受講生情報の登録<br >
- ![image](https://github.com/user-attachments/assets/1426ef1b-2b1f-4548-bd9a-39a9af356107)<br >
+例）受講生情報の登録<br >
+![image](https://github.com/user-attachments/assets/dd195f4e-82bb-4edf-b739-9e7646960fd0)<br >
+![image](https://github.com/user-attachments/assets/6e9e2ea8-466a-41f9-a984-f8d29118b1e9)<br >
 
  - REST APIにて実装 <br >
-例）REST API実装後の受講生情報の登録<br >
+例）REST API実装後の受講生情報の登録(PostMan画面)<br >
+![image](https://github.com/user-attachments/assets/31fff2e6-dd9c-44ed-97a5-7a7609c146d5)
+![image](https://github.com/user-attachments/assets/3b024a13-f04f-4348-9442-6a7080e22489)
 
 
 ## 使用技術
