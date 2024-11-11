@@ -6,11 +6,10 @@
 ## 使用技術
 - Java21
 - springframework3.3.4
-- MySQL 5.7
-- mybatis3.0.3
+- mybatis 3.0.3
 - junit
 - Thymeleaf（RestAPI実装前）
-- mysql8.4.2
+- MySQL 8.4.2
 - MVCモデル
 
 ## 機能一覧
